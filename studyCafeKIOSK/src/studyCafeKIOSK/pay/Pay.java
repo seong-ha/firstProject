@@ -1,15 +1,14 @@
 package studyCafeKIOSK.pay;
 
 public class Pay {
-	private String payId; // sysdate + sequence++
+	private int payId; // sequence++
 	private String orderId;
-
 	private int payment;
 	private int payPrice;
-	private String fromAccountId;
-	private String toAccountId;
+	private String fromMemberId;
+	private String toMemberId;
 
-	public String getPayId() {
+	public int getPayId() {
 		return payId;
 	}
 
@@ -21,15 +20,15 @@ public class Pay {
 		return payPrice;
 	}
 
-	public String getFromAccountId() {
-		return fromAccountId;
+	public String getFromMemberId() {
+		return fromMemberId;
 	}
 
-	public String getToAccountId() {
-		return toAccountId;
+	public String getToMemberId() {
+		return toMemberId;
 	}
 
-	public void setPayId(String payId) {
+	public void setPayId(int payId) {
 		this.payId = payId;
 	}
 
@@ -41,12 +40,12 @@ public class Pay {
 		this.payPrice = payPrice;
 	}
 
-	public void setFromAccountId(String fromAccountId) {
-		this.fromAccountId = fromAccountId;
+	public void setFromMemberId(String fromMemberId) {
+		this.fromMemberId = fromMemberId;
 	}
 
-	public void setToAccountId(String toAccountId) {
-		this.toAccountId = toAccountId;
+	public void setToMemberId(String toMemberId) {
+		this.toMemberId = toMemberId;
 	}
 
 	public String getOrderId() {
@@ -56,4 +55,5 @@ public class Pay {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+
 }

@@ -42,26 +42,22 @@ public class SeatDAO extends DAO{
 		return list;
 	}
 	
-	public int updateSeat(Order order, String finishTime) {
+	public int updateSeat(Order order) {
 		int result = 0;
 		
 		try {
 			conn();
-			String sql = "update seat set member_id =?, start_time = to_date(?, 'yy/mm/dd hh24:mi'),"
-					+ " finish_time = to_date(?, 'yy/mm/dd hh24:mi'),"
-					+ "left_time = ? where seat_no = ?";
+			String sql = "update seat set member_id = ?, start_time = to_date(?, 'yy/mm/dd hh24:mi'),"
+					+ " finish_time = to_date(?, 'yy/mm/dd hh24:mi') + 1/24 * ?, where seat_no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, order.getMemberId());
 			pstmt.setString(2, order.getOrderTime());
-			pstmt.setString(3, finishTime);
+			pstmt.setString(3, order.getOrderTime());
 			pstmt.setInt(4, order.getTicketHour());
 			pstmt.setInt(5, order.getSeatNo());
 			
 			result = pstmt.executeUpdate();
-			while (rs.next()) {
-			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

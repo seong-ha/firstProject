@@ -1,6 +1,8 @@
 package studyCafeKIOSK.order;
 
 import studyCafeKIOSK.common.DAO;
+import studyCafeKIOSK.member.MemberService;
+import studyCafeKIOSK.ticket.Ticket;
 
 public class OrderDAO extends DAO {
 
@@ -13,6 +15,8 @@ public class OrderDAO extends DAO {
 	public static OrderDAO getInstance() {
 		return (orderDAO == null) ? orderDAO = new OrderDAO() : orderDAO;
 	}
+	
+	int sequence = 0;
 
 	// 시작시간 알아내오기
 	public String getStartTime() {
@@ -62,10 +66,6 @@ public class OrderDAO extends DAO {
 		return finishTime;
 	}
 	
-	public String paymentToString(int payment) {
-		return payment == 1 ? "카드" : "시간차감";
-	}
-	
 	// 주문 등록 및 시행
 	public int insertOrder(Order order) {
 		int result = 0;
@@ -93,5 +93,26 @@ public class OrderDAO extends DAO {
 			disconnect();
 		}
 		return result;
+	}
+	
+	public Order getOrderDetail(int seatNo, Ticket ticket) {
+		Order order = new Order();
+		
+		order.setOrderId(getStartTime() + ++sequence);
+		order.setMemberId(MemberService.memberInfo.getMemberId());
+		order.setSeatNo(seatNo);
+		order.setOrderTime(getStartTime());
+		order.setTicketType(ticket.getTicketType());
+		order.setTicketHour(ticket.getTicketHour());
+		order.setTicketPrice(ticket.getTicketPrice());
+		
+		System.out.println("------- 주문할 내역 --------");
+		System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+				+ " - 이용시간: " + order.getTicketHour() + "시간\n"
+				+ " - 이용기간: " + order.getOrderTime() + "부터\n"
+				+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
+				+ " - 결제할 금액: " + ticket.getTicketPrice());
+		
+		return order;
 	}
 }
