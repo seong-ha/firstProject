@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studyCafeKIOSK.common.DAO;
+import studyCafeKIOSK.order.Order;
 
 public class MemberDAO extends DAO {
 	private static MemberDAO memberDAO = null;
@@ -63,8 +64,8 @@ public class MemberDAO extends DAO {
 						member.setPhone(rs.getString("phone"));
 						member.setRegDate(rs.getString("reg_date"));
 						member.setMemberType(rs.getInt("member_Type"));
-						member.setTicketTimes(rs.getString("ticket_times"));
-						member.setMemberId(rs.getString("oneday_times"));
+						member.setTicketTimes(rs.getInt("ticket_times"));
+						member.setOnedayTimes(rs.getInt("oneday_times"));
 						
 						list.add(member);
 					}
@@ -116,6 +117,35 @@ public class MemberDAO extends DAO {
 		}
 		
 		return 0;
+	}
+	
+	// 회원 티켓별 시간 추가.
+	public int updateTimes(Order order) {
+		int result = 0;
+		String sql = "";
+		
+		try {
+			conn();
+			if (order.getTicketType() == 1) {
+				sql = "update member set oneday_times = oneday_times + (? * 60) where member_id = ?";
+			} else if (order.getTicketType() == 2) {
+				sql = "update member set oneday_times = ticket_times + (? * 60) where member_id = ?";
+			} else {
+				System.out.println("티켓타입이 1(1회권)이나 2(정액권)가 아닙니다.");
+				return 0;
+			}
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order.getTicketHour());
+			pstmt.setString(2, order.getMemberId());
+
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return result;
 	}
 	
 }

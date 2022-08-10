@@ -7,24 +7,8 @@ public class Member {
 	private String phone;
 	private String regDate;
 	private int memberType;
-	private String ticketTimes;
-	private String onedayTimes;
-	
-	public Member() {
-
-	}
-
-	public Member(String memberId, String memberName, String memberPw, String phone, String regDate, int memberType,
-			String ticketTimes, String onedayTimes) {
-		this.memberId = memberId;
-		this.memberName = memberName;
-		this.memberPw = memberPw;
-		this.phone = phone;
-		this.regDate = regDate;
-		this.memberType = memberType;
-		this.ticketTimes = ticketTimes;
-		this.onedayTimes = onedayTimes;
-	}
+	private int ticketTimes;
+	private int onedayTimes;
 
 	public String getMemberId() {
 		return memberId;
@@ -50,11 +34,11 @@ public class Member {
 		return memberType;
 	}
 
-	public String getTicketTimes() {
+	public int getTicketTimes() {
 		return ticketTimes;
 	}
 
-	public String getOnedayTimes() {
+	public int getOnedayTimes() {
 		return onedayTimes;
 	}
 
@@ -82,11 +66,11 @@ public class Member {
 		this.memberType = memberType;
 	}
 
-	public void setTicketTimes(String ticketTimes) {
+	public void setTicketTimes(int ticketTimes) {
 		this.ticketTimes = ticketTimes;
 	}
 
-	public void setOnedayTimes(String onedayTimes) {
+	public void setOnedayTimes(int onedayTimes) {
 		this.onedayTimes = onedayTimes;
 	}
 	

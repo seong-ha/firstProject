@@ -1,13 +1,12 @@
 package studyCafeKIOSK.ticket;
 
 public class Ticket {
-	private int ticketId;
+	private String ticketId;
 	private int ticketType;
 	private int ticketHour;
 	private int ticketPrice;
-	private int ticketTimePrice;
 
-	public int getTicketId() {
+	public String getTicketId() {
 		return ticketId;
 	}
 
@@ -23,11 +22,7 @@ public class Ticket {
 		return ticketPrice;
 	}
 
-	public int getTicketTimePrice() {
-		return ticketTimePrice;
-	}
-
-	public void setTicketId(int ticketId) {
+	public void setTicketId(String ticketId) {
 		this.ticketId = ticketId;
 	}
 
@@ -41,10 +36,6 @@ public class Ticket {
 
 	public void setTicketPrice(int ticketPrice) {
 		this.ticketPrice = ticketPrice;
-	}
-
-	public void setTicketTimePrice(int ticketTimePrice) {
-		this.ticketTimePrice = ticketTimePrice;
 	}
 
 }

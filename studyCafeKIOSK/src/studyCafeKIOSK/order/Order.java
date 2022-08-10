@@ -1,13 +1,14 @@
 package studyCafeKIOSK.order;
 
 public class Order {
-	private String orderId;
+	private String orderId; // dual로 sysdate 받아와서 + sequence++ 해서 insert
 	private String memberId;
 	private int seatNo;
-	private String orderTime;
-	private String orderPrice;
+	private String orderTime; // dual로 sysdate 받아와서 넣기.
 	private int payment;
-	private String orderedTicketId;
+	private int ticketType;
+	private int ticketHour;
+	private int ticketPrice;
 
 	public String getOrderId() {
 		return orderId;
@@ -25,16 +26,8 @@ public class Order {
 		return orderTime;
 	}
 
-	public String getOrderPrice() {
-		return orderPrice;
-	}
-
 	public int getPayment() {
 		return payment;
-	}
-
-	public String getOrderedTicketId() {
-		return orderedTicketId;
 	}
 
 	public void setOrderId(String orderId) {
@@ -53,16 +46,32 @@ public class Order {
 		this.orderTime = orderTime;
 	}
 
-	public void setOrderPrice(String orderPrice) {
-		this.orderPrice = orderPrice;
-	}
-
 	public void setPayment(int payment) {
 		this.payment = payment;
 	}
 
-	public void setOrderedTicketId(String orderedTicketId) {
-		this.orderedTicketId = orderedTicketId;
+	public int getTicketHour() {
+		return ticketHour;
+	}
+
+	public int getTicketPrice() {
+		return ticketPrice;
+	}
+
+	public void setTicketHour(int ticketHour) {
+		this.ticketHour = ticketHour;
+	}
+
+	public void setTicketPrice(int ticketPrice) {
+		this.ticketPrice = ticketPrice;
+	}
+
+	public int getTicketType() {
+		return ticketType;
+	}
+
+	public void setTicketType(int ticketType) {
+		this.ticketType = ticketType;
 	}
 
 }

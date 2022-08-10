@@ -5,19 +5,7 @@ public class Seat {
 	private String memberId;
 	private String startTime;
 	private String finishTime;
-	private String leftTime;
-
-	public Seat() {
-
-	}
-
-	public Seat(int seatNo, String memberId, String startTime, String finishTime, String leftTime) {
-		this.seatNo = seatNo;
-		this.memberId = memberId;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
-		this.leftTime = leftTime;
-	}
+//	private String leftTime;  이건 그때그때 쿼리로 가져와야함. sysdate - finishTime
 
 	public int getSeatNo() {
 		return seatNo;
@@ -35,9 +23,9 @@ public class Seat {
 		return finishTime;
 	}
 
-	public String getLeftTime() {
-		return leftTime;
-	}
+//	public String getLeftTime() {
+//		return leftTime;
+//	}
 
 	public void setSeatNo(int seatNo) {
 		this.seatNo = seatNo;
@@ -55,8 +43,8 @@ public class Seat {
 		this.finishTime = finishTime;
 	}
 
-	public void setLeftTime(String leftTime) {
-		this.leftTime = leftTime;
-	}
+//	public void setLeftTime(String leftTime) {
+//		this.leftTime = leftTime;
+//	}
 
 }

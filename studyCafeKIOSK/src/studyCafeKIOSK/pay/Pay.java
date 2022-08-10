@@ -1,7 +1,9 @@
 package studyCafeKIOSK.pay;
 
 public class Pay {
-	private String payId; // to_number(to_char(sysdate, 'yyyymmddhh24mi')) + 1
+	private String payId; // sysdate + sequence++
+	private String orderId;
+
 	private int payment;
 	private int payPrice;
 	private String fromAccountId;
@@ -47,4 +49,11 @@ public class Pay {
 		this.toAccountId = toAccountId;
 	}
 
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 }

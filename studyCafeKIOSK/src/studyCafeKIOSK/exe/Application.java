@@ -21,8 +21,8 @@ public class Application {
 				
 				while (true) {
 					System.out.println("__________________________________________________________________________");
-					System.out.println("1. 1회권 이용 | 2. 정액권 이용 | 3. 정액권 충전 | 4. 이용 정보 확인 | 5. 출입키 재발급");
-					System.out.println("6. 출입키 재발급 | 7. 좌석 이동 | 8. 시간 연장 | 9. 비밀번호 재설정 | 10. 퇴실");
+					System.out.println("1. 1회권 이용 / 정액권 이용 / 정액권 충전 | 2. 이용 정보 확인 | 3. 출입키 재발급");
+					System.out.println("4. 출입키 재발급 | 5. 좌석 이동 | 6. 시간 연장 | 7. 비밀번호 재설정 | 8. 퇴실");
 					System.out.print("메뉴를 선택해주세요.> ");
 					
 					int menuNo = Integer.parseInt(sc.nextLine());
