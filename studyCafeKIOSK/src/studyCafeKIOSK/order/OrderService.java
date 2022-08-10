@@ -3,6 +3,7 @@ package studyCafeKIOSK.order;
 import java.util.List;
 import java.util.Scanner;
 
+import studyCafeKIOSK.member.MemberService;
 import studyCafeKIOSK.seat.Seat;
 import studyCafeKIOSK.seat.SeatDAO;
 
@@ -17,6 +18,7 @@ public class OrderService {
 		int ticketNo = Integer.parseInt(sc.nextLine());
 		
 		if (ticketNo == 1) {
+			
 			System.out.println("2시간 | 4시간 | 8시간 | 12시간");
 			System.out.print("이용 시간을 선택하세요.>");
 			int ticketTime = Integer.parseInt(sc.nextLine());
@@ -29,6 +31,14 @@ public class OrderService {
 			}
 			
 			System.out.print("좌석을 선택하세요.> ");
+			int seatNo = Integer.parseInt(sc.nextLine());
+			
+			
+			
+//			MemberService.memberInfo
+			
+			
+			
 			
 			
 			
