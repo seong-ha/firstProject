@@ -39,8 +39,8 @@ public class MemberDAO extends DAO {
 		return result;
 	}
 	
-	// 회원 조회
-	public List<Member> findById(String memberId) {
+	// 로그인
+	public List<Member> login(String memberId, String memberPw) {
 		List<Member> list = new ArrayList<>();
 		Member member = null;
 		
@@ -52,19 +52,29 @@ public class MemberDAO extends DAO {
 			
 			rs = pstmt.executeQuery();
 			
-			while (rs.next()) {
-				member = new Member();
-				member.setMemberId(rs.getString("member_id"));
-				member.setMemberName(rs.getString("member_name"));
-				member.setMemberPw(rs.getString("member_pw"));
-				member.setPhone(rs.getString("phone"));
-				member.setRegDate(rs.getString("reg_date"));
-				member.setMemberType(rs.getInt("member_Type"));
-				member.setTicketTimes(rs.getString("ticket_times"));
-				member.setMemberId(rs.getString("oneday_times"));
+			if (rs != null) {
 				
-				list.add(member);
+				if (rs.getString("member_pw").equals(memberPw)) {
+					while (rs.next()) {
+						member = new Member();
+						member.setMemberId(rs.getString("member_id"));
+						member.setMemberName(rs.getString("member_name"));
+						member.setMemberPw(rs.getString("member_pw"));
+						member.setPhone(rs.getString("phone"));
+						member.setRegDate(rs.getString("reg_date"));
+						member.setMemberType(rs.getInt("member_Type"));
+						member.setTicketTimes(rs.getString("ticket_times"));
+						member.setMemberId(rs.getString("oneday_times"));
+						
+						list.add(member);
+					}
+				} else {
+					System.out.println("비밀번호가 틀렸습니다.");
+				}
+			} else {
+				System.out.println("등록되지 않은 아이디입니다.");
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -73,6 +83,7 @@ public class MemberDAO extends DAO {
 		
 		return list;
 	}
+	
 	
 	// 비밀번호 재설정 (접속한 아이디로 정보 조회 후 비번 확인 후 바꿀 비번으로 update)
 	public int updateMemberPw(String memberId, String memberNowPw, String memberNextPw) {

@@ -2,7 +2,7 @@ package studyCafeKIOSK.member;
 
 import studyCafeKIOSK.common.DAO;
 
-public class AdminDAO extends DAO{
+public class AdminDAO extends DAO {
 	private static AdminDAO adminDAO = null;
 	
 	private AdminDAO() {
@@ -21,10 +21,7 @@ public class AdminDAO extends DAO{
 			conn();
 			String sql = "update member (member_id, member_name, member_pw, phone) values (?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, member.getMemberId());
-			pstmt.setString(2, member.getMemberName());
-			pstmt.setString(3, member.getMemberPw());
-			pstmt.setString(4, member.getPhone());
+			pstmt.setString(1, "");
 			
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
