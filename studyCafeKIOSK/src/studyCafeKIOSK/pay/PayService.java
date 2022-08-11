@@ -13,9 +13,13 @@ public class PayService {
 	
 	public int choosePayment(Ticket ticket) {
 		
-		if (ticket.getTicketType() == 1 || ticket.getTicketType() == 3) {
+		// 1회권 / 1회권 연장 / 정액권 충전
+		if (ticket.getTicketType() == 1 || ticket.getTicketType() == 3 
+										|| (ticket.getTicketType() == 4 && ticket.getTicketPrice() > 12)) {
 			System.out.println("1. 카드  | 2. ---- ");
-		} else if (ticket.getTicketType() == 2) {
+		// 정액권 / 정액권 연장	
+		} else if (ticket.getTicketType() == 2
+				|| (ticket.getTicketType() == 4 && ticket.getTicketPrice() < 13)) {
 			System.out.println("1. ---- | 2. 시간 차감");
 		}
 

@@ -47,6 +47,7 @@ public class Application {
 						ss.changeSeat();
 						break;
 					case 5:
+						
 						break;
 					case 6:
 						ms.changePw();
