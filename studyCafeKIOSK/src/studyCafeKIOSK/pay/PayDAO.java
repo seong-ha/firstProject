@@ -234,6 +234,4 @@ public class PayDAO extends DAO {
 		return payment == 1 ? "카드" : "시간차감";
 	}
 	
-	
-
 }

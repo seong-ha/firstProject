@@ -24,6 +24,8 @@ public class TicketDAO extends DAO {
 		} else if (ticketType == 2) {
 			return "정액권";
 		} else if (ticketType == 3) {
+			return "정액권 충전";
+		} else if (ticketType == 4) {
 			return "연장";
 		} else {
 			System.out.println("티켓 종류를 잘못 선택했습니다.");

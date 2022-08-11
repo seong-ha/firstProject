@@ -64,8 +64,9 @@ public class OrderService {
 								int receipt = Integer.parseInt(sc.nextLine());
 								if (receipt == 1) {
 									System.out.println("영수증(출입키)이 출력됩니다.(종이 + 전자영수증)");
+									oDAO.printReceipt(order, payment);
 								} else {
-									System.out.println("영수증(출입키)이 출력됩니다.(전자영수증)");
+									System.out.println("영수증(출입키)이 전송됩니다.(전자영수증)");
 								}
 
 								break; // 로그아웃으로 가는길.
@@ -124,8 +125,9 @@ public class OrderService {
 								int receipt = Integer.parseInt(sc.nextLine());
 								if (receipt == 1) {
 									System.out.println("영수증(출입키)이 출력됩니다.(종이 + 전자영수증)");
+									oDAO.printReceipt(order, payment);
 								} else {
-									System.out.println("영수증(출입키)이 출력됩니다.(전자영수증)");
+									System.out.println("영수증(출입키)이 전송됩니다.(전자영수증)");
 								}
 
 								break; // 로그아웃으로 가는길.
@@ -173,8 +175,9 @@ public class OrderService {
 								int receipt = Integer.parseInt(sc.nextLine());
 								if (receipt == 1) {
 									System.out.println("영수증이 출력됩니다.(종이 + 전자영수증)");
+									oDAO.printReceipt(order, payment);
 								} else {
-									System.out.println("영수증이 출력됩니다.(전자영수증)");
+									System.out.println("영수증이 전송됩니다.(전자영수증)");
 								}
 
 							} else {

@@ -64,15 +64,42 @@ public class MemberService {
 		
 	}
 	
+	public void changePw() {
+		System.out.println("현재 비밀 번호와 바꿀 비밀번호를 입력해주세요.");
+		
+		System.out.print("현재 비밀번호> ");
+		String memberNowPw = sc.nextLine();
+		System.out.print("바꿀 비밀번호> ");
+		String memberNextPw = sc.nextLine();
+		
+		int result = mDAO.updateMemberPw(memberInfo.getMemberId(), memberNowPw, memberNextPw);
+		
+		if (result == 1) {
+			System.out.println("비밀변호 변경 완료");
+		} else {
+			System.out.println("비밀번호 변경 실패");
+		}
+		
+	}
+	
 	public int timePlus(Order order) {
 		int result = MemberDAO.getInstance().updateTimesPlus(order);
 		
+		String resultPrint = "";
 		
 		if (result == 1) {
-			System.out.println("시간 등록 및 추가 완료");
+			if (order.getTicketType() == 1) {
+				resultPrint = "1회권 시간 등록 완료";
+			} else if(order.getTicketType() == 3) {
+				resultPrint = "정액 시간 충전 완료";
+			} else if(order.getTicketType() == 4) {
+				resultPrint = "시간 연장 완료";
+			}
 		} else {
-			System.out.println("시간 등록 및 추가 실패");
+			resultPrint = "시간 등록 및 추가 실패";
 		}
+		
+		System.out.println(resultPrint);
 		
 		return result;
 	}
@@ -88,5 +115,5 @@ public class MemberService {
 		
 		return result;
 	}
-
+	
 }

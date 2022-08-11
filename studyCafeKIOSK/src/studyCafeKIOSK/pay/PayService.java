@@ -30,6 +30,9 @@ public class PayService {
 		} else if (ticket.getTicketType() == 2) {
 			System.out.println("결제할 수단: " + pDAO.paymentToString(payment));
 			System.out.println("결제할 시간: " + ticket.getTicketPrice());
+		} else if (ticket.getTicketType() == 3) {
+			System.out.println("결제할 수단: " + pDAO.paymentToString(payment));
+			System.out.println("결제할 시간: " + ticket.getTicketPrice());
 		}
 
 		System.out.println("결제하시겠습니까?");

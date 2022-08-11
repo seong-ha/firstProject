@@ -94,15 +94,17 @@ public class MemberDAO extends DAO {
 
 			rs = pstmt.executeQuery();
 
-			if (rs.getString("member_pw").equals(memberNowPw)) {
-				String updateSql = "update member set member_pw = ? where member_id = ?";
-				pstmt = conn.prepareStatement(updateSql);
-				pstmt.setString(1, memberNextPw);
-				pstmt.setString(2, memberId);
-
-				result = pstmt.executeUpdate();
-			} else {
-				System.out.println("비밀번호가 틀렸습니다.");
+			if (rs.next()) {
+				if (rs.getString("member_pw").equals(memberNowPw)) {
+					String updateSql = "update member set member_pw = ? where member_id = ?";
+					pstmt = conn.prepareStatement(updateSql);
+					pstmt.setString(1, memberNextPw);
+					pstmt.setString(2, memberId);
+					
+					result = pstmt.executeUpdate();
+				} else {
+					System.out.println("비밀번호가 틀렸습니다.");
+				}
 			}
 
 		} catch (Exception e) {
@@ -111,7 +113,7 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 
-		return 0;
+		return result;
 	}
 
 	// 회원 티켓별 시간 추가.
@@ -121,7 +123,7 @@ public class MemberDAO extends DAO {
 
 		try {
 			conn();
-			if (order.getTicketType() == 1) {
+			if (order.getTicketType() == 1/* || order.getTicketType() == 4*/) {
 				sql = "update member set oneday_times = oneday_times + (? * 60) where member_id = ?";
 			} else if (order.getTicketType() == 3) {
 				sql = "update member set ticket_times = ticket_times + (? * 60) where member_id = ?";
@@ -168,4 +170,5 @@ public class MemberDAO extends DAO {
 
 		return result;
 	}
+	
 }

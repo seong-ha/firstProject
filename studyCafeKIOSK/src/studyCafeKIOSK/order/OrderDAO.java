@@ -2,6 +2,7 @@ package studyCafeKIOSK.order;
 
 import studyCafeKIOSK.common.DAO;
 import studyCafeKIOSK.member.MemberService;
+import studyCafeKIOSK.pay.PayDAO;
 import studyCafeKIOSK.ticket.Ticket;
 
 public class OrderDAO extends DAO {
@@ -15,7 +16,8 @@ public class OrderDAO extends DAO {
 	public static OrderDAO getInstance() {
 		return (orderDAO == null) ? orderDAO = new OrderDAO() : orderDAO;
 	}
-	
+
+	PayDAO pDAO = PayDAO.getInstance();
 	static int sequence = 0;
 
 	// 시작시간 알아내오기
@@ -127,5 +129,37 @@ public class OrderDAO extends DAO {
 		}
 		
 		return order;
+	}
+	
+	public void printReceipt(Order order, int payment) {
+
+		System.out.println("------------- 영수증 -------------");
+
+		if (order.getTicketType() == 1) {
+			System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+					+ " - 이용시간: " + order.getTicketHour() + "시간\n"
+					+ " - 이용기간: " + order.getOrderTime() + "부터\n"
+					+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
+					+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
+					+ " - 결제 금액: " + order.getTicketPrice()
+					+ "\n출입키:  ▤▥");
+			
+		} else if (order.getTicketType() == 2) {
+			System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+					+ " - 이용시간: " + order.getTicketHour() + "시간\n"
+					+ " - 이용기간: " + order.getOrderTime() + "부터\n"
+					+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
+					+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
+					+ " - 차감 시간: " + order.getTicketPrice()
+					+ "\n출입키:  ▨▧");
+			
+		} else if (order.getTicketType() == 3) {
+			System.out.println(" - 구매시간: " + order.getTicketHour() + "시간\n"
+					+ " - 구매일시: " + order.getOrderTime() + "\n"
+					+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
+					+ " - 결제 금액: " + order.getTicketPrice());
+		}
+		
+		System.out.println("--------------------------------");
 	}
 }

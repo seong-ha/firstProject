@@ -15,27 +15,29 @@ public class TicketService {
 
 		for (Ticket ticket : ticketList) {
 			
-			if (ticketType == 1 | ticketType == 3) {
+			if (ticketType == 1) {
 				System.out.println(tDAO.ticketTypeToString(ticket.getTicketType()) + " | "
 								+ ticket.getTicketHour() + "시간 | "
 								+ ticket.getTicketPrice() + "원");
 			} else if (ticketType == 2) {
 				System.out.println(tDAO.ticketTypeToString(ticket.getTicketType()) + " | "
-								+ ticket.getTicketHour() + "시간 | "
-								+ ticket.getTicketPrice() + "시간");
-			}
+								+ ticket.getTicketHour() + "시간");
+			} else if (ticketType == 3) {
+				System.out.println(tDAO.ticketTypeToString(ticket.getTicketType()) + " | "
+								+ ticket.getTicketHour() + "시간");
+	}
 			
 		}
 		System.out.println("▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
 
 		// 티켓 시간 선택
-		if (ticketType == 1 || ticketType == 2) {
-			System.out.println("2시간 | 4시간 | 8시간 | 12시간");
-		} else if (ticketType == 3) {
-			System.out.println("50시간 | 100시간");
-		} else if (ticketType == 4) {
-			System.out.println("1시간 | 2시간 | 3시간 | 4시간");
-		}
+//		if (ticketType == 1 || ticketType == 2) {
+//			System.out.println("2시간 | 4시간 | 8시간 | 12시간");
+//		} else if (ticketType == 3) {
+//			System.out.println("50시간 | 100시간");
+//		} else if (ticketType == 4) {
+//			System.out.println("1시간 | 2시간 | 3시간 | 4시간");
+//		}
 
 		System.out.print("이용 시간을 선택하세요.>");
 		int ticketTime = Integer.parseInt(sc.nextLine());

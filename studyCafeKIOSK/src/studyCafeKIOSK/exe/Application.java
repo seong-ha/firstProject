@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 import studyCafeKIOSK.member.MemberService;
 import studyCafeKIOSK.order.OrderService;
+import studyCafeKIOSK.seat.SeatService;
 
 public class Application {
 
 	OrderService os = new OrderService();
 	MemberService ms = new MemberService();
+	SeatService ss = new SeatService();
 	Scanner sc = new Scanner(System.in);
 
 	public Application() {
@@ -24,7 +26,7 @@ public class Application {
 				afterLogin: while (true) {
 					System.out.println("__________________________________________________________________________");
 					System.out.println("1. 1회권 이용 / 정액권 이용 / 정액권 충전 | 2. 이용 정보 확인 | 3. 출입키 재발급");
-					System.out.println("4. 출입키 재발급 | 5. 좌석 이동 | 6. 시간 연장 | 7. 비밀번호 재설정 | 8. 퇴실 | 99. 로그아웃");
+					System.out.println("4. 좌석 이동 | 5. 시간 연장 | 6. 비밀번호 재설정 | 7. 퇴실 | 99. 로그아웃");
 					System.out.print("메뉴를 선택해주세요.> ");
 
 					int menuNo = Integer.parseInt(sc.nextLine());
@@ -36,22 +38,22 @@ public class Application {
 						System.out.println("자동 로그아웃 합니다.");
 						break afterLogin;
 					case 2:
+						ss.getUsingInfo();
 						break;
 					case 3:
+						// 출입키는 나중에.
 						break;
 					case 4:
+						ss.changeSeat();
 						break;
 					case 5:
 						break;
 					case 6:
-						break;
+						ms.changePw();
+						MemberService.memberInfo = null;
+						System.out.println("다시 로그인해주세요.");
+						break afterLogin;
 					case 7:
-						break;
-					case 8:
-						break;
-					case 9:
-						break;
-					case 10:
 						break;
 					case 99:
 						MemberService.memberInfo = null;
