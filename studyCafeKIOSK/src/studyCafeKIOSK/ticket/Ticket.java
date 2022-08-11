@@ -1,10 +1,10 @@
 package studyCafeKIOSK.ticket;
 
 public class Ticket {
-	private String ticketId;
-	private int ticketType;
-	private int ticketHour;
-	private int ticketPrice;
+	private String ticketId; // pk
+	private int ticketType; // not null 1:1회권 2:정액권이용(시간) 3: 정액권충전 4: 연장(시간과 금액)
+	private int ticketHour; // not null
+	private int ticketPrice; // 
 
 	public String getTicketId() {
 		return ticketId;

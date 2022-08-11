@@ -16,7 +16,7 @@ public class OrderDAO extends DAO {
 		return (orderDAO == null) ? orderDAO = new OrderDAO() : orderDAO;
 	}
 	
-	int sequence = 0;
+	static int sequence = 0;
 
 	// 시작시간 알아내오기
 	public String getStartTime() {
@@ -24,7 +24,7 @@ public class OrderDAO extends DAO {
 		
 		try {
 			conn();
-			String sql = "select to_char(sysdate, 'yy/mm/dd hh24:mi') start from dual";
+			String sql = "select to_char(sysdate, 'yy/mm/dd hh24:mi') \"start\" from dual";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -47,11 +47,11 @@ public class OrderDAO extends DAO {
 		
 		try {
 			conn();
-			String sql = "select to_char(sysdate + 1/24 * ?, 'yy/mm/dd hh24:mi') finish from dual";
+			String sql = "select to_char(sysdate + 1/24 * ?, 'yy/mm/dd hh24:mi') \"finish\" from dual";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, time);
 			
-			rs = pstmt.executeQuery(sql);
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				finishTime = rs.getString("finish");
@@ -72,7 +72,7 @@ public class OrderDAO extends DAO {
 		
 		try {
 			conn();
-			String sql = "insert into order values (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into orders values (?, ?, ?, to_date(?, 'yy/mm/dd hh24:mi'), ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, order.getOrderId());
 			pstmt.setString(2, order.getMemberId());
@@ -84,9 +84,6 @@ public class OrderDAO extends DAO {
 			pstmt.setInt(8, order.getTicketPrice());
 			
 			result = pstmt.executeUpdate();
-			while (rs.next()) {
-			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -106,12 +103,28 @@ public class OrderDAO extends DAO {
 		order.setTicketHour(ticket.getTicketHour());
 		order.setTicketPrice(ticket.getTicketPrice());
 		
-		System.out.println("------- 주문할 내역 --------");
-		System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
-				+ " - 이용시간: " + order.getTicketHour() + "시간\n"
-				+ " - 이용기간: " + order.getOrderTime() + "부터\n"
-				+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
-				+ " - 결제할 금액: " + ticket.getTicketPrice());
+		if (ticket.getTicketType() == 1) {
+			System.out.println("------- 주문할 내역 --------");
+			System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+					+ " - 이용시간: " + order.getTicketHour() + "시간\n"
+					+ " - 이용기간: " + order.getOrderTime() + "부터\n"
+					+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
+					+ " - 결제할 금액: " + ticket.getTicketPrice());
+			
+		} else if (ticket.getTicketType() == 2) {
+			System.out.println("------- 주문할 내역 --------");
+			System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+					+ " - 이용시간: " + order.getTicketHour() + "시간\n"
+					+ " - 이용기간: " + order.getOrderTime() + "부터\n"
+					+ "           " + getFinishTime(order.getTicketHour()) + "까지\n"
+					+ " - 차감될 시간: " + ticket.getTicketPrice());
+			
+		} else if (ticket.getTicketType() == 3) {
+			System.out.println("------- 주문할 내역 --------");
+			System.out.println(" - 구매시간: " + order.getTicketHour() + "시간\n"
+					+ " - 구매일시: " + order.getOrderTime() + "\n"
+					+ " - 결제할 금액: " + ticket.getTicketPrice());
+		}
 		
 		return order;
 	}

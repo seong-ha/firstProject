@@ -12,13 +12,25 @@ public class PayService {
 	PayDAO pDAO = PayDAO.getInstance();
 	
 	public int choosePayment(Ticket ticket) {
-		System.out.println("1. 카드 | 2. 카카오페이(개발예정)");
+		
+		if (ticket.getTicketType() == 1 || ticket.getTicketType() == 3) {
+			System.out.println("1. 카드  | 2. ---- ");
+		} else if (ticket.getTicketType() == 2) {
+			System.out.println("1. ---- | 2. 시간 차감");
+		}
+
 		System.out.print("결제 수단을 선택하세요.> ");
 		int payment = Integer.parseInt(sc.nextLine());
 
 		System.out.println("------- 결제할 내역 --------");
-		System.out.println("결제할 수단: " + pDAO.paymentToString(payment));
-		System.out.println("결제할 금액: " + ticket.getTicketPrice());
+		
+		if (ticket.getTicketType() == 1) {
+			System.out.println("결제할 수단: " + pDAO.paymentToString(payment));
+			System.out.println("결제할 금액: " + ticket.getTicketPrice());
+		} else if (ticket.getTicketType() == 2) {
+			System.out.println("결제할 수단: " + pDAO.paymentToString(payment));
+			System.out.println("결제할 시간: " + ticket.getTicketPrice());
+		}
 
 		System.out.println("결제하시겠습니까?");
 		System.out.print(" Y / N 선택> ");

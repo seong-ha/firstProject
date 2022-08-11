@@ -192,7 +192,6 @@ public class PayDAO extends DAO {
 	public void insertPayLog(String memberId, int payPrice, Order order) {
 		Pay pay = new Pay();
 
-		pay.setPayId(++sequence);
 		if (order != null) {
 			pay.setOrderId(order.getOrderId());
 			pay.setPayment(order.getPayment());
@@ -208,14 +207,13 @@ public class PayDAO extends DAO {
 
 		try {
 			conn();
-			String sql = "insert into pay values (?, ?, ?, ?, ?, ?)";
+			String sql = "insert into pay values (pay_id_seq.nextval, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, pay.getPayId());
-			pstmt.setString(2, pay.getOrderId());
-			pstmt.setInt(3, pay.getPayment());
-			pstmt.setInt(4, pay.getPayPrice());
-			pstmt.setString(5, pay.getFromMemberId());
-			pstmt.setString(6, pay.getToMemberId());
+			pstmt.setString(1, pay.getOrderId());
+			pstmt.setInt(2, pay.getPayment());
+			pstmt.setInt(3, pay.getPayPrice());
+			pstmt.setString(4, pay.getFromMemberId());
+			pstmt.setString(5, pay.getToMemberId());
 
 			result = pstmt.executeUpdate();
 			

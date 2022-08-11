@@ -1,12 +1,12 @@
 package studyCafeKIOSK.order;
 
 public class Order {
-	private String orderId; // dual로 sysdate 받아와서 + sequence++ 해서 insert
-	private String memberId;
-	private int seatNo;
-	private String orderTime; // dual로 sysdate 받아와서 넣기.
+	private String orderId; // dual로 sysdate 받아와서 + sequence++ 해서 insert // pk
+	private String memberId; // reference member(member_id)
+	private int seatNo; // default 0
+	private String orderTime; // dual로 sysdate 받아와서 넣기. // date
 	private int payment;
-	private int ticketType;
+	private int ticketType; // 1. 1회권 2. 정액권
 	private int ticketHour;
 	private int ticketPrice;
 

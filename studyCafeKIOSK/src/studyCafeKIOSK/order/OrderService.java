@@ -46,10 +46,10 @@ public class OrderService {
 					if (payResult == 1) {
 
 						// order 등록하기
-						int OrderResult = oDAO.insertOrder(order);
+						int orderResult = oDAO.insertOrder(order);
 
 						// order 등록 되면 이에 따라 seat이랑 회원정보 update.
-						if (OrderResult == 1) {
+						if (orderResult == 1) {
 							System.out.println("주문 등록 완료");
 
 							int seatResult = ss.registerSeat(order);
@@ -68,34 +68,126 @@ public class OrderService {
 									System.out.println("영수증(출입키)이 출력됩니다.(전자영수증)");
 								}
 
+								break; // 로그아웃으로 가는길.
+
 							} else if (seatResult == 1 && memberResult == 0) {
-								System.out.println("좌석은 업데이트 완료, 회원시간 등록 및 추가는 실패");
+								System.out.println("좌석은 배정 완료, 회원시간 등록 및 추가는 실패");
 							} else if (seatResult == 0 && memberResult == 1) {
-								System.out.println("좌석은 업데이트 실패, 회원시간 등록 및 추가는 업데이트완료");
+								System.out.println("좌석은 배정 실패, 회원시간 등록 및 추가는 업데이트완료");
 							} else {
-								System.out.println("모두 실패");
+								System.out.println("좌석 배정, 회원시간 등록 및 추가: 모두 실패");
 							}
 						} else {
 							System.out.println("주문 등록 실패");
 						}
-					} else {
-						System.out.println("결제에 실패했습니다.");
 					}
 
 				} else {
 					System.out.println("결제 수단 잘못 선택");
 				}
 
-				break;
-
 			} else if (ticketMenuNo == 2) {
-				// ★★★★★★★★★★★ 먼저 테이블들 만들고, 시간 메뉴랑 좌석 10개 넣고,
-				// ★★★★★★★★★★★관리자랑 회원 만들고, 둘의 계좌도 만들고
 
-				// 정액권 티켓정보 보여주기
+				// 이용할 정액권 티겟(정보) pick up
 				Ticket choosenTicket = ts.chooseTicket(ticketMenuNo);
 
+				// 이용할 좌석번호 pick up
+				int seatNo = ss.chooseSeatNo();
+
+				// 이용기간 계산
+				// 좌석 / 이용시간 / 이용기간 / 차감될 시간.
+				Order order = oDAO.getOrderDetail(seatNo, choosenTicket);
+
+				int payment = ps.choosePayment(choosenTicket);
+				order.setPayment(payment);
+				if (order.getPayment() == 2) {
+
+					int payResult = ms.timeMinus(order);
+
+					if (payResult == 1) {
+
+						// order 등록하기
+						int orderResult = oDAO.insertOrder(order);
+
+						// order 등록 되면 이에 따라 seat이랑 회원정보 update.
+						if (orderResult == 1) {
+							System.out.println("주문 등록 완료");
+
+							int seatResult = ss.registerSeat(order);
+
+							if (seatResult == 1) {
+								System.out.println("영수증의 출입키를 이용하여 출입하시면 됩니다.");
+
+								System.out.println("1. 종이 + 전자영수증 | 2. 전자 영수증만 발급");
+								System.out.print("영수증(출입키) 발급 유형 선택> ");
+
+								int receipt = Integer.parseInt(sc.nextLine());
+								if (receipt == 1) {
+									System.out.println("영수증(출입키)이 출력됩니다.(종이 + 전자영수증)");
+								} else {
+									System.out.println("영수증(출입키)이 출력됩니다.(전자영수증)");
+								}
+
+								break; // 로그아웃으로 가는길.
+
+							} else {
+								System.out.println("좌석 배정 실패");
+							}
+						} else {
+							System.out.println("주문 등록 실패");
+						}
+					}
+
+				} else {
+					System.out.println("결제 수단 잘못 선택");
+				}
+
 			} else if (ticketMenuNo == 3) {
+
+				// 구매할 정액권 티겟(정보) pick up
+				Ticket choosenTicket = ts.chooseTicket(ticketMenuNo);
+
+				Order order = oDAO.getOrderDetail(0, choosenTicket);
+
+				int payment = ps.choosePayment(choosenTicket);
+				order.setPayment(payment);
+				if (order.getPayment() == 1) {
+
+					int payResult = ps.orderCardPay(order);
+
+					if (payResult == 1) {
+
+						// order 등록하기
+						int orderResult = oDAO.insertOrder(order);
+
+						// order 등록 되면 이에 따라 seat이랑 회원정보 update.
+						if (orderResult == 1) {
+							System.out.println("주문 등록 완료");
+
+							int memberResult = ms.timePlus(order);
+
+							if (memberResult == 1) {
+								System.out.println("1. 종이 + 전자영수증 | 2. 전자 영수증만 발급");
+								System.out.print("영수증 발급 유형 선택> ");
+
+								int receipt = Integer.parseInt(sc.nextLine());
+								if (receipt == 1) {
+									System.out.println("영수증이 출력됩니다.(종이 + 전자영수증)");
+								} else {
+									System.out.println("영수증이 출력됩니다.(전자영수증)");
+								}
+
+							} else {
+								System.out.println("정액시간 등록 실패");
+							}
+						} else {
+							System.out.println("주문 등록 실패");
+						}
+					}
+
+				} else {
+					System.out.println("결제 수단 잘못 선택");
+				}
 
 			}
 

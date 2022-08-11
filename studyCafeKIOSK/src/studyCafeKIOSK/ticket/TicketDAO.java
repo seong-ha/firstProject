@@ -39,15 +39,15 @@ public class TicketDAO extends DAO {
 
 		try {
 			conn();
-			String sql = "select * from ticket where ticket_type = ? and ticket_hour not in (1, 3)";
+			String sql = "select * from ticket where ticket_type = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, ticketType);
-			rs = stmt.executeQuery(sql);
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				ticket = new Ticket();
 				ticket.setTicketId(rs.getString("ticket_id"));
-				ticket.setTicketType(rs.getInt("ticketType"));
+				ticket.setTicketType(rs.getInt("ticket_type"));
 				ticket.setTicketHour(rs.getInt("ticket_hour"));
 				ticket.setTicketPrice(rs.getInt("ticket_price"));
 				list.add(ticket);
@@ -63,7 +63,6 @@ public class TicketDAO extends DAO {
 	
 	public Ticket getChoosenTicketInfo(String ticketId) {
 		Ticket ticket = null;
-
 		try {
 			conn();
 			String sql = "select * from ticket where ticket_id = ?";
@@ -71,11 +70,11 @@ public class TicketDAO extends DAO {
 			pstmt.setString(1, ticketId);
 			
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 				ticket = new Ticket();
 				ticket.setTicketId(rs.getString("ticket_id"));
-				ticket.setTicketType(rs.getInt("ticketType"));
+				ticket.setTicketType(rs.getInt("ticket_type"));
 				ticket.setTicketHour(rs.getInt("ticket_hour"));
 				ticket.setTicketPrice(rs.getInt("ticket_price"));
 			}

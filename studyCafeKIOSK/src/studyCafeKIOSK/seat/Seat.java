@@ -1,10 +1,10 @@
 package studyCafeKIOSK.seat;
 
 public class Seat {
-	private int seatNo;
-	private String memberId;
-	private String startTime;
-	private String finishTime;
+	private int seatNo; // pk
+	private String memberId; // reference member(member_id)
+	private String startTime; // date
+	private String finishTime; // date
 //	private String leftTime;  이건 그때그때 쿼리로 가져와야함. sysdate - finishTime
 
 	public int getSeatNo() {

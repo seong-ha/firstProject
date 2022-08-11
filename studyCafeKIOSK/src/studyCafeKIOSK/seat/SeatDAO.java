@@ -48,7 +48,7 @@ public class SeatDAO extends DAO{
 		try {
 			conn();
 			String sql = "update seat set member_id = ?, start_time = to_date(?, 'yy/mm/dd hh24:mi'),"
-					+ " finish_time = to_date(?, 'yy/mm/dd hh24:mi') + 1/24 * ?, where seat_no = ?";
+					+ " finish_time = to_date(?, 'yy/mm/dd hh24:mi') + 1/24 * ? where seat_no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, order.getMemberId());

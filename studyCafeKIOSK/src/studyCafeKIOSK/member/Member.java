@@ -1,14 +1,15 @@
 package studyCafeKIOSK.member;
 
 public class Member {
-	private String memberId;
-	private String memberName;
-	private String memberPw;
-	private String phone;
-	private String regDate;
-	private int memberType;
-	private int ticketTimes;
-	private int onedayTimes;
+	private String memberId; // pk
+	private String memberName; // not null
+	private String memberPw; // not null
+	private String phone; // not null
+	private String regDate; // default sysdate
+	private int memberType; // default 0(회원)
+	private int ticketTimes; // default 0
+	private int onedayTimes; // default 0
+	private int balance; // default 100000
 
 	public String getMemberId() {
 		return memberId;
@@ -73,5 +74,14 @@ public class Member {
 	public void setOnedayTimes(int onedayTimes) {
 		this.onedayTimes = onedayTimes;
 	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+	
 	
 }
