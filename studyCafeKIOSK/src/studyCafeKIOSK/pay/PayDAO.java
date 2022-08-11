@@ -33,10 +33,10 @@ public class PayDAO extends DAO {
 			if (rs.next()) {
 				balance = rs.getInt("balance");
 
-				if (balance >= payPrice) {
+				if (balance >= order.getTicketPrice()) {
 					String paySql = "update member set balance = balance - ? where member_id = ?";
 					pstmt = conn.prepareStatement(paySql);
-					pstmt.setInt(1, payPrice);
+					pstmt.setInt(1, order.getTicketPrice());
 					pstmt.setString(2, memberId);
 
 					fromResult = pstmt.executeUpdate();
@@ -45,13 +45,13 @@ public class PayDAO extends DAO {
 						System.out.println();
 						String recieveSql = "update member set balance = balance + ? where member_id = '01036497455'";
 						pstmt = conn.prepareStatement(recieveSql);
-						pstmt.setInt(1, payPrice);
+						pstmt.setInt(1, order.getTicketPrice());
 
 						toResult = pstmt.executeUpdate();
 
 						// 결제 기록(승인번호 생성)
 						if (toResult == 1) {
-							insertPayLog(memberId, payPrice, order);
+							insertPayLog(memberId, order.getTicketPrice(), order);
 							
 						}
 					} else {
@@ -70,7 +70,7 @@ public class PayDAO extends DAO {
 			disconnect();
 		}
 
-		return 0;
+		return toResult;
 	}
 
 	// 결제취소
@@ -193,9 +193,14 @@ public class PayDAO extends DAO {
 		Pay pay = new Pay();
 
 		pay.setPayId(++sequence);
-		pay.setOrderId(order.getOrderId());
-		pay.setPayment(order.getPayment());
-		pay.setPayPrice(payPrice);
+		if (order != null) {
+			pay.setOrderId(order.getOrderId());
+			pay.setPayment(order.getPayment());
+			pay.setPayPrice(order.getTicketPrice());
+		} else {
+			pay.setPayment(1);
+			pay.setPayPrice(payPrice);
+		}
 		pay.setFromMemberId(memberId);
 		pay.setToMemberId("01036497455");
 
@@ -231,25 +236,6 @@ public class PayDAO extends DAO {
 		return payment == 1 ? "카드" : "시간차감";
 	}
 	
-	public Order choosePayment(Order order) {
-		System.out.println("1. 카드 | 2. 카카오페이(개발예정)");
-		System.out.print("결제 수단을 선택하세요.> ");
-		int payment = Integer.parseInt(sc.nextLine());
-
-		System.out.println("------- 결제할 내역 --------");
-		System.out.println("결제할 수단: " + paymentToString(payment));
-		System.out.println("결제할 금액: " + order.getTicketPrice());
-
-		System.out.println("결제하시겠습니까?");
-		System.out.print(" Y / N 선택> ");
-		String payConfirm = sc.nextLine();
-		
-		if (payConfirm.equalsIgnoreCase("y")) {
-			order.setPayment(1);
-		}
-		
-		return order;
-		
-	}
+	
 
 }

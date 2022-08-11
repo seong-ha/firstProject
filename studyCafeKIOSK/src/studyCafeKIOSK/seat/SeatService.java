@@ -3,6 +3,8 @@ package studyCafeKIOSK.seat;
 import java.util.List;
 import java.util.Scanner;
 
+import studyCafeKIOSK.order.Order;
+
 public class SeatService {
 
 	Scanner sc = new Scanner(System.in);
@@ -19,5 +21,17 @@ public class SeatService {
 		int seatNo = Integer.parseInt(sc.nextLine());
 		
 		return seatNo;
+	}
+	
+	public int registerSeat(Order order) {
+		int result = sDAO.updateSeat(order);
+		
+		if (result == 1) {
+			System.out.println("좌석 업데이트 완료.");
+		} else {
+			System.out.println("좌석 업데이트 실패.");
+		}
+		
+		return result;
 	}
 }

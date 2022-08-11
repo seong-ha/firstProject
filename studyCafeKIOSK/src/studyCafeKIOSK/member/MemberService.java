@@ -3,6 +3,8 @@ package studyCafeKIOSK.member;
 import java.util.List;
 import java.util.Scanner;
 
+import studyCafeKIOSK.order.Order;
+
 public class MemberService {
 	
 //	private static MemberService ms = null;
@@ -34,5 +36,17 @@ public class MemberService {
 			System.out.println("로그인 실패");
 		}
 		
+	}
+	
+	public int timePlus(Order order) {
+		int result = MemberDAO.getInstance().updateTimesPlus(order);
+		
+		if (result == 1) {
+			System.out.println("시간 등록 및 추가 완료");
+		} else {
+			System.out.println("시간 등록 및 추가 실패");
+		}
+		
+		return result;
 	}
 }

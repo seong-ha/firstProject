@@ -120,7 +120,7 @@ public class MemberDAO extends DAO {
 	}
 	
 	// 회원 티켓별 시간 추가.
-	public int updateTimes(Order order) {
+	public int updateTimesPlus(Order order) {
 		int result = 0;
 		String sql = "";
 		
