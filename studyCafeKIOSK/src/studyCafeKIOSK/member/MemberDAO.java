@@ -1,8 +1,5 @@
 package studyCafeKIOSK.member;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import studyCafeKIOSK.common.DAO;
 import studyCafeKIOSK.order.Order;
 
@@ -116,14 +113,14 @@ public class MemberDAO extends DAO {
 		return result;
 	}
 
-	// 회원 티켓별 시간 추가.
+	// 회원 1회권 / 정액권충전 / 1회권연장 별 시간 추가.
 	public int updateTimesPlus(Order order) {
 		int result = 0;
 		String sql = "";
 
 		try {
 			conn();
-			if (order.getTicketType() == 1/* || order.getTicketType() == 4*/) {
+			if (order.getTicketType() == 1 || order.getTicketType() == 4) {
 				sql = "update member set oneday_times = oneday_times + (? * 60) where member_id = ?";
 			} else if (order.getTicketType() == 3) {
 				sql = "update member set ticket_times = ticket_times + (? * 60) where member_id = ?";
@@ -151,10 +148,10 @@ public class MemberDAO extends DAO {
 
 		try {
 			conn();
-			if (order.getTicketType() == 2) {
+			if (order.getTicketType() == 2 || order.getTicketType() == 4) {
 				sql = "update member set ticket_times = ticket_times - (? * 60) where member_id = ?";
 			} else {
-				System.out.println("티켓타입이 1(1회권)이나 2(정액권)가 아닙니다.");
+				System.out.println("티켓타입이 2(정액권) 또는 4(정액권 연장)이 아닙니다.");
 				return 0;
 			}
 			pstmt = conn.prepareStatement(sql);
@@ -171,4 +168,44 @@ public class MemberDAO extends DAO {
 		return result;
 	}
 	
+	public int saveTimeMinute(String memberId, int minute) {
+		int result = 0;
+
+		try {
+			conn();
+			String sql = "update member set ticket_times = ticket_times + ? where member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, minute);
+			pstmt.setString(2, memberId);
+
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+		return result;
+	}
+	
+	// 1회권 퇴실
+	public int truncTime(String memberId) {
+		int result = 0;
+		
+		
+		try {
+			conn();
+			String sql = "update member set oneday_times = 0 where member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+		return result;
+	}
 }

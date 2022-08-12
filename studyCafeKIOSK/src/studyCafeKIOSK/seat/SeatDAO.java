@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import studyCafeKIOSK.common.DAO;
+import studyCafeKIOSK.member.Member;
+import studyCafeKIOSK.member.MemberService;
 import studyCafeKIOSK.order.Order;
 import studyCafeKIOSK.order.OrderDAO;
 
@@ -19,6 +21,7 @@ public class SeatDAO extends DAO{
 	}
 	
 	OrderDAO oDAO = OrderDAO.getInstance();
+	MemberService ms = new MemberService();
 	
 	public List<Seat> getSeatList() {
 		List<Seat> list = new ArrayList<>();
@@ -68,6 +71,30 @@ public class SeatDAO extends DAO{
 		}
 		
 		return result;
+	}
+	
+	public int updateSeatFinishTime(Seat seat, Order order) {
+		int result = 0;
+		
+		try {
+			conn();
+			String sql = "update seat set finish_time = to_date(?, 'yy/mm/dd hh24:mi') + 1/24 * ?"
+					+ " where member_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seat.getFinishTime());
+			pstmt.setInt(2, order.getTicketHour());
+			pstmt.setString(3, seat.getMemberId());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return result;
+		
 	}
 	
 	public Seat getSeatedInfo(String memberId) {
@@ -131,6 +158,72 @@ public class SeatDAO extends DAO{
 		}
 		
 		return toResult;
+	}
+	
+	public int makeSeatNull(Seat seat, Member member) {
+		int result = 0;
 		
+		// 1회권 이용 중일 시
+		if (member.getOnedayTimes() != 0) {
+			
+			if (ms.truncOnedayTicket(seat) == 1) {
+				
+				try {
+					conn();
+					String makeNullSql = "update seat set member_id = null, start_time = null, finish_time = null "
+							+ "where member_id = ?";
+					pstmt = conn.prepareStatement(makeNullSql);
+					pstmt.setString(1, member.getMemberId());
+					
+					result = pstmt.executeUpdate();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					disconnect();
+				}
+			}
+			
+		// 정액권 이용 중일 시
+		} else {
+			
+			try {
+				conn();
+				// 마감시간 - 현재시간 = 적립시간 도출(분)
+				String timeSavingSql = "select to_number"
+						+ "(finish_time - to_date(to_char(sysdate, 'yy/mm/dd hh24:mi'), 'yy/mm/dd hh24:mi')) * 24 * 60 \"saving_time\""
+						+ " from seat where member_id = ?";
+				pstmt = conn.prepareStatement(timeSavingSql);
+				pstmt.setString(1, member.getMemberId());
+				
+				rs = pstmt.executeQuery();
+				
+				int timeSaving = 0;
+				if (rs != null) {
+					
+					if (rs.next()) {
+						System.out.println("적립할 시간 도출 완료");
+						timeSaving = rs.getInt("saving_time");
+						ms.saveTime(seat, timeSaving);
+						
+						String makeNullSql = "update seat set member_id = null, start_time = null, finish_time = null "
+								+ "where member_id = ?";
+						pstmt = conn.prepareStatement(makeNullSql);
+						pstmt.setString(1, member.getMemberId());
+						
+						result = pstmt.executeUpdate();
+					}
+				} else {
+					System.out.println("적립할 시간 도출 오류");
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+		}
+		
+		return result;
 	}
 }

@@ -24,6 +24,7 @@ public class Application {
 			if (MemberService.memberInfo != null) { // 로그인 되어있을 때
 
 				afterLogin: while (true) {
+					System.out.println();
 					System.out.println("__________________________________________________________________________");
 					System.out.println("1. 1회권 이용 / 정액권 이용 / 정액권 충전 | 2. 이용 정보 확인 | 3. 출입키 재발급");
 					System.out.println("4. 좌석 이동 | 5. 시간 연장 | 6. 비밀번호 재설정 | 7. 퇴실 | 99. 로그아웃");
@@ -41,21 +42,24 @@ public class Application {
 						ss.getUsingInfo();
 						break;
 					case 3:
-						// 출입키는 나중에.
+						System.out.println("개발 예정입니다. 관리자에게 문의하세요.");
 						break;
 					case 4:
 						ss.changeSeat();
 						break;
 					case 5:
-						
-						break;
+						os.timeExtension();
+						MemberService.memberInfo = null;
+						break afterLogin;
 					case 6:
 						ms.changePw();
 						MemberService.memberInfo = null;
 						System.out.println("다시 로그인해주세요.");
 						break afterLogin;
 					case 7:
-						break;
+						ss.checkOut();
+						MemberService.memberInfo = null;
+						break afterLogin;
 					case 99:
 						MemberService.memberInfo = null;
 						System.out.println("로그아웃 합니다.");

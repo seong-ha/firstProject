@@ -36,6 +36,17 @@ public class SeatService {
 		return result;
 	}
 	
+	public int seatTimeExtension(Seat seat, Order order) {
+		int result = sDAO.updateSeatFinishTime(seat, order);
+		
+		if (result == 1) {
+			System.out.println("좌석 시간 업데이트(연장) 완료");
+		} else {
+			System.out.println("좌석 시간 업데이트(연장) 실패");
+		}
+		return result;
+	}
+	
 	public void getUsingInfo() {
 		Seat seat = sDAO.getSeatedInfo(MemberService.memberInfo.getMemberId());
 		
@@ -86,6 +97,27 @@ public class SeatService {
 			
 		} else {
 			System.out.println("현재 이용 중인 좌석이 없습니다. 자리 이용 중일 때 말씀하시지예");
+		}
+	}
+	
+	// 퇴실
+	public void checkOut() {
+		Seat usingSeat = sDAO.getSeatedInfo(MemberService.memberInfo.getMemberId());
+
+		// 이용중인지부터 확인
+		if (usingSeat != null) {
+
+			// 퇴실 로직 긔긔
+			int result = sDAO.makeSeatNull(usingSeat, MemberService.memberInfo);
+			
+			if (result == 1) {
+				System.out.println("퇴실 완료");
+			} else {
+				System.out.println("퇴실 실패");
+			}
+			
+		} else {
+			System.out.println("현재 이용 중인 좌석이 없습니다.");
 		}
 	}
 }

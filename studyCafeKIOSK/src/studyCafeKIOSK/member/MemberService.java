@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import studyCafeKIOSK.order.Order;
 import studyCafeKIOSK.pay.PayDAO;
+import studyCafeKIOSK.seat.Seat;
 
 public class MemberService {
 	
@@ -111,6 +112,28 @@ public class MemberService {
 			System.out.println("정액 시간 차감 완료");
 		} else {
 			System.out.println("정액 시간 차감 실패");
+		}
+		
+		return result;
+	}
+	
+	public void saveTime(Seat seat, int minute) {
+		int result = mDAO.saveTimeMinute(seat.getMemberId(), minute);
+		
+		if (result == 1) {
+			System.out.println("남은 시간 적립 완료");
+		} else {
+			System.out.println("남은 시간 적립 실패");
+		}
+	}
+	
+	public int truncOnedayTicket (Seat seat) {
+		int result = mDAO.truncTime(seat.getMemberId());
+		
+		if (result == 1) {
+			System.out.println("1회권 남은 시간 소멸 완료");
+		} else {
+			System.out.println("1회권 남은 시간 소멸 실패");
 		}
 		
 		return result;

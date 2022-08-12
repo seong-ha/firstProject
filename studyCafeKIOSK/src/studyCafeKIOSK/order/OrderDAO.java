@@ -217,6 +217,19 @@ public class OrderDAO extends DAO {
 					+ " - 구매일시: " + order.getOrderTime() + "\n"
 					+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
 					+ " - 결제 금액: " + order.getTicketPrice());
+		} else if (order.getTicketType() == 4) {
+			
+			if (order.getTicketPrice() > 12) {
+				System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+						+ " - 연장시간: " + order.getTicketHour() + "시간\n"
+						+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
+						+ " - 결제 금액: " + order.getTicketPrice());
+			} else if (order.getTicketPrice() < 13) {
+				System.out.println(" - 이용 좌석: " + order.getSeatNo() + "번\n"
+						+ " - 연장시간: " + order.getTicketHour() + "시간\n"
+						+ " - 결제 수단: " + pDAO.paymentToString(payment) + "\n"
+						+ " - 차감 시간: " + order.getTicketPrice());
+			}
 		}
 		
 		System.out.println("--------------------------------");
